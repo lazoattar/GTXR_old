@@ -4,15 +4,16 @@
 #include "stm32f7xx.h"
 
 #define STACK_TOP   ((uint32_t)0x20000800)
+#define AF07        (0x7UL)
 
 static void NMI_Handler(void);
 static void HardFault_Handler(void);
 static void Default_Handler(void);
-static void GPIO_TogglePin(GPIO_TypeDef *GPIOPort, int GPIOPin);
+static void USART3_Write(unsigned char x);
 int main(void);
 
 // Vector Table
-uint32_t *myvectors[47] __attribute__ ((section("vectors"))) = {
+uint32_t *myvectors[52] __attribute__ ((section("vectors"))) = {
     (uint32_t *) STACK_TOP,             // Stack pointer
     (uint32_t *) main,                  // Code entry point
     (uint32_t *) NMI_Handler,           // NMI Handler
@@ -59,25 +60,32 @@ uint32_t *myvectors[47] __attribute__ ((section("vectors"))) = {
     (uint32_t *) Default_Handler,       // TIM1 Capture Compare interrupt
     (uint32_t *) Default_Handler,       // TIM2 global interrupt
     (uint32_t *) Default_Handler,       // TIM3 global interrupt
-    (uint32_t *) Default_Handler        // TIM4 global interrupt
+    (uint32_t *) Default_Handler,       // TIM4 global interrupt
+    (uint32_t *) Default_Handler,       // I2C1 event interrupt
+    (uint32_t *) Default_Handler,       // I2C1 error interrupt
+    (uint32_t *) Default_Handler,       // I2C2 event interrupt
+    (uint32_t *) Default_Handler,       // I2C2 error interrupt
+    (uint32_t *) Default_Handler        // SPI1 global interrupt
 };
 
 int main(void)
 {
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;    // setup clock for GPIOB
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;           // enable GPIOD clock
+    RCC->APB1ENR |= RCC_APB1ENR_USART3EN;          // enable USART3 clock
 
-	GPIOB->MODER |= GPIO_MODER_MODER7_0;
-	GPIOB->MODER &= ~GPIO_MODER_MODER7_1;
+    GPIOD->MODER |= GPIO_MODER_MODER8_1;
+    GPIOD->AFR[1] |= (AF07 << 0);
+
+    USART3->BRR = 0x008B;
+    USART3->CR1 = 0;
+    USART3->CR1 |= (USART_CR1_TE | USART_CR1_UE);
 
     while(1)
     {
-        GPIOB->ODR |= GPIO_ODR_OD7;
-		//delay for a little bit
-		for (volatile int i=0; i<1000000; i++);
-		//set PB7 back to zero
-		GPIOB->ODR &= ~GPIO_ODR_OD7;
-		//delay for a little bit
-		for (volatile int i=0; i<1000000; i++);
+        USART3_Write('a');
+        USART3_Write('\r');
+        USART3_Write('\n');
+        for (volatile int i = 0; i < 0xFFFFF; i++);
     }
 }
 
@@ -96,18 +104,9 @@ void Default_Handler(void)
     for(;;);
 }
 
-void GPIO_TogglePin(GPIO_TypeDef *GPIOPort, int GPIOPin)
+void USART3_Write(unsigned char x)
 {
-    uint32_t currentButtonState;
-    currentButtonState = GPIOPort->ODR & ((uint32_t)0x01<<GPIOPin);
-
-    if(currentButtonState != 0)
-    {
-        GPIOPort->ODR = GPIOPort->ODR & ~((uint32_t)0x01<<GPIOPin);
-    }
-    else
-    {
-        GPIOPort->ODR = GPIOPort->ODR | ((uint32_t)0x01<<GPIOPin);
-    }
+    USART3->TDR = (x);
+    while(!((USART3->ISR) & USART_ISR_TC)){;}
 }
 

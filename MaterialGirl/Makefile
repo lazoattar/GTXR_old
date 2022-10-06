@@ -16,6 +16,7 @@ INCLUDE  = -I.
 #INCLUDE += -I${HOME}/.config/stm32/${DIR}/CMSIS/Include
 INCLUDE += -I./${DIR}/CMSIS/Device/ST/STM32F7xx/Include
 INCLUDE += -I./${DIR}/CMSIS/Include
+INCLUDE += -I./include
 
 SRCS = ./src/main.c
 

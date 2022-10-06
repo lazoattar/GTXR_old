@@ -1,0 +1,6 @@
+Configure essential registers           10/5/2022
+Experiment with COM port with UART      10/6/2022
+Recieve data from GPS and ouput it      10/7/2022
+Configure TXREADY funtionality          10/8/2022
+Configure UBX output to UART 1          10/8/2022
+Parse UBX output and log it             10/8/2022
