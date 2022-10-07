@@ -2,7 +2,7 @@ PROJECT=main
 
 CC = arm-none-eabi-gcc
 SF = st-flash
-CFLAGS = -c -fno-common -mcpu=cortex-m4 -mthumb
+CFLAGS = -c -fno-common -mcpu=cortex-m7 -mthumb
 CFLAGS_DEBUG = $(CFLAGS) -O0 -g
 
 LD = arm-none-eabi-ld

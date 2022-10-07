@@ -10,6 +10,8 @@ static void NMI_Handler(void);
 static void HardFault_Handler(void);
 static void Default_Handler(void);
 static void USART3_Write(unsigned char x);
+static unsigned char USART3_Read(void);
+static int USART3_Available(void);
 int main(void);
 
 // Vector Table
@@ -74,18 +76,21 @@ int main(void)
     RCC->APB1ENR |= RCC_APB1ENR_USART3EN;          // enable USART3 clock
 
     GPIOD->MODER |= GPIO_MODER_MODER8_1;
+    GPIOD->MODER |= GPIO_MODER_MODER9_1;
+
     GPIOD->AFR[1] |= (AF07 << 0);
+    GPIOD->AFR[1] |= (AF07 << 4);
 
     USART3->BRR = 0x008B;
     USART3->CR1 = 0;
-    USART3->CR1 |= (USART_CR1_TE | USART_CR1_UE);
+    USART3->CR1 |= (USART_CR1_TE | USART_CR1_RE | USART_CR1_UE);
 
     while(1)
     {
-        USART3_Write('a');
-        USART3_Write('\r');
-        USART3_Write('\n');
-        for (volatile int i = 0; i < 0xFFFFF; i++);
+        if (USART3_Available())
+        {
+            USART3_Write(USART3_Read());
+        }
     }
 }
 
@@ -108,5 +113,23 @@ void USART3_Write(unsigned char x)
 {
     USART3->TDR = (x);
     while(!((USART3->ISR) & USART_ISR_TC)){;}
+}
+
+unsigned char USART3_Read(void)
+{
+    return USART3->RDR;
+}
+
+int USART3_Available(void)
+{
+    if ((USART3->ISR) & USART_ISR_RXNE)
+    {
+        return 1;
+    }
+
+    else
+    {
+        return 0;
+    }
 }
 
