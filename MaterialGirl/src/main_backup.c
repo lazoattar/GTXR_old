@@ -127,6 +127,7 @@ int main(void)
     NVIC_EnableIRQ(DMA1_Stream1_IRQn);
     NVIC_EnableIRQ(DMA1_Stream3_IRQn);
 
+    char *hi = "hii\r\n";
     USART3_DMA1_Stream1_Read(&uart_rx_data, 20);
 
     while(1)
@@ -135,6 +136,7 @@ int main(void)
         {
             USART3_DMA1_Stream3_Write(uart_rx_data,20);
         }
+
 	}
 }
 
@@ -193,12 +195,12 @@ uint8_t Is_Buffer_Full(void)
 {
     if (rx_finished == 0)
     {
-        return BUFFER_EMPTY;
+        return 0;
     }
     else
     {
         rx_finished = 0;
-        return BUFFER_FULL;
+        return 1;
     }
 }
 
