@@ -1,39 +1,66 @@
-PROJECT=main
+TARGET = main
 
-CC = arm-none-eabi-gcc
-SF = st-flash
-CFLAGS = -c -fno-common -mcpu=cortex-m7 -mthumb
-CFLAGS_DEBUG = $(CFLAGS) -O0 -g
+BUILD_DIR = build
 
-LD = arm-none-eabi-ld
-LDFLAGS = -v -T stm32.ld -n
-OBJCOPY = arm-none-eabi-objcopy
+C_SOURCES = $(shell find . -name "*.c")
+
+PREFIX = arm-none-eabi
+CC = $(PREFIX)-gcc
+AS = $(PREFIX)-as
+CP = $(PREFIX)-objcopy
+LD = $(PREFIX)-ld.bfd
+SZ = $(PREFIX)-size
+GDB = $(PREFIX)-gdb
+
+BIN = $(CP) -O binary
+
+CPU = -mcpu=cortex-m7
+MCU = $(CPU) -mthumb -g
 
 DIR = STM32F767_Drivers
 
-INCLUDE  = -I.
-#INCLUDE += -I${HOME}/.config/stm32/${DIR}/CMSIS/Device/ST/STM32F7xx/Include
-#INCLUDE += -I${HOME}/.config/stm32/${DIR}/CMSIS/Include
-INCLUDE += -I./${DIR}/CMSIS/Device/ST/STM32F7xx/Include
-INCLUDE += -I./${DIR}/CMSIS/Include
-INCLUDE += -I./include
+C_INCLUDES = -I.
+C_INCLUDES += -I./${DIR}/CMSIS/Device/ST/STM32F7xx/Include
+C_INCLUDES += -I./${DIR}/CMSIS/Include
+C_INCLUDES += -I./include
 
-SRCS = ./src/main.c
+CFLAGS = $(MCU) $(C_INCLUDES)
 
-OBJS = $(SRCS:.c=.o)
+LDSCRIPT = stm32.ld
+LDFLAGS = -T $(LDSCRIPT)
 
-debug:$(PROJECT).bin
-$(PROJECT).bin: $(PROJECT).elf
-	$(OBJCOPY) -S -O binary $(PROJECT).elf $(PROJECT).bin
+all: $(BUILD_DIR)/$(TARGET).bin
 
-$(PROJECT).elf: $(OBJS)
-	$(LD) $(LDFLAGS) -o $(PROJECT).elf $(OBJS)
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
+vpath %.c $(sort $(dir $(C_SOURCES)))
 
-$(OBJS):$(SRCS)
-	$(CC) $(INCLUDE) $(CFLAGS_DEBUG) -o $(OBJS) $(SRCS)
+$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/%.o: %.S | $(BUILD_DIR)
+	$(AS) $< -o $@
+
+$(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) | $(BUILD_DIR)
+	$(LD) $(LDFLAGS) $(OBJECTS) -o $@
+	$(SZ) $@
+
+$(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
+	$(BIN) $< $@
+
+$(BUILD_DIR):
+	mkdir $@
 
 clean:
-	rm -f *.o *.elf *.bin *~
+	-rm -fR $(BUILD_DIR)
 
 flash:
-	$(SF) write $(PROJECT).bin 0x8000000
+	st-flash --reset write ./$(BUILD_DIR)/$(TARGET).bin 0x08000000
+
+openocd:
+	openocd -f ../utils/openocd.cfg
+
+telnet:
+	telnet localhost 4444
+
+gdb: $(BUILD_DIR)/$(TARGET).elf
+	$(GDB) --eval-command="target remote localhost:3333" $<
