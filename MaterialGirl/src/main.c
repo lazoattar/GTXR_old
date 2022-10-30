@@ -1,16 +1,17 @@
-#define STM32F767xx
+#define STM32H723xx
+#define ARM_MATH_CM7
 
 #include <stdint.h>
-#include "stm32f7xx.h"
+#include "stm32h7xx.h"
+#include "stm32h7xx_ll_dma.h"
+//#include "arm_math.h"
 
 #define STACK_TOP   ((uint32_t)0x20000800)
 #define AF07        (0x7UL)
 #define AF08        (0x8UL)
-#define CH04        (0x4UL)
-#define CH05        (0x5UL)
 
-#define BUFFER_EMPTY    0
-#define BUFFER_FULL     1
+#define BUFFER_EMPTY    (0x0UL)
+#define BUFFER_FULL     (0x1UL)
 
 static void NMI_Handler(void);
 static void HardFault_Handler(void);
@@ -25,7 +26,6 @@ static void DMA1_Stream6_IRQHandler(void);
 static void DMA1_Stream0_IRQHandler(void);
 static uint8_t Is_USART3_Buffer_Full(void);
 static uint8_t Is_UART8_Buffer_Full(void);
-static void Delay(int ms);
 int main(void);
 
 uint8_t usart3_tx_finished;
@@ -38,7 +38,6 @@ char uart8_rx_data[1024];
 char uart8_tx_data[128];
 uint8_t counter = 0;
 uint8_t length;
-
 
 // Vector Table
 uint32_t *myvectors[56] __attribute__ ((section("vectors"))) = {
@@ -102,17 +101,20 @@ uint32_t *myvectors[56] __attribute__ ((section("vectors"))) = {
 
 int main(void)
 {
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;                                    // enable GPIOE clock
-    RCC->APB1ENR |= RCC_APB1ENR_UART8EN;                                    // enable UART8 clock
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;                                    // enable GPIOD clock
-    RCC->APB1ENR |= RCC_APB1ENR_USART3EN;                                   // enable USART3 clock
+    RCC->AHB4ENR |= RCC_AHB4ENR_GPIOEEN;                                    // enable GPIOE clock
+    RCC->APB1LENR |= RCC_APB1LENR_UART8EN;                                    // enable UART8 clock
+    RCC->AHB4ENR |= RCC_AHB4ENR_GPIODEN;                                    // enable GPIOD clock
+    RCC->APB1LENR |= RCC_APB1LENR_USART3EN;                                   // enable USART3 clock
     RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN;                                     // enable DMA1 clock
 
-    GPIOD->MODER |= GPIO_MODER_MODER8_1;                                    // set PD8 to AF mode
-    GPIOD->MODER |= GPIO_MODER_MODER9_1;                                    // set PD9 to AF mode
+    GPIOD->MODER &= ~(GPIO_MODER_MODE8);
+    GPIOD->MODER &= ~(GPIO_MODER_MODE9);
 
-    GPIOE->MODER |= GPIO_MODER_MODER0_1;                                    // set PE0 to AF mode
-    GPIOE->MODER |= GPIO_MODER_MODER1_1;                                    // set PE1 to AF mode
+    GPIOD->MODER |= GPIO_MODER_MODE8_1;                                    // set PD8 to AF mode
+    GPIOD->MODER |= GPIO_MODER_MODE9_1;                                    // set PD9 to AF mode
+
+    GPIOE->MODER |= GPIO_MODER_MODE0_1;                                    // set PE0 to AF mode
+    GPIOE->MODER |= GPIO_MODER_MODE1_1;                                    // set PE1 to AF mode
 
     GPIOD->AFR[1] |= (AF07 << 0);                                           // set PD8 to AF7 (USART3_TX)
     GPIOD->AFR[1] |= (AF07 << 4);                                           // set PD9 to AF8 (USART3_RX)
@@ -120,12 +122,12 @@ int main(void)
     GPIOE->AFR[0] |= (AF08 << 0);                                           // set PE0 to AF8 (UART8_RX)
     GPIOE->AFR[0] |= (AF08 << 4);                                           // set PE1 to AF8 (UART8_TX)
 
-    USART3->BRR = 0x01A1;
+    USART3->BRR = 0x0683;
     USART3->CR1 = 0;
     USART3->CR3 |= (USART_CR3_DMAT | USART_CR3_DMAR);
     USART3->CR1 |= (USART_CR1_TE | USART_CR1_RE | USART_CR1_UE);
 
-    UART8->BRR = 0x01A1;
+    UART8->BRR = 0x0683;
     UART8->CR1 = 0;
     UART8->CR3 |= (USART_CR3_DMAT |USART_CR3_DMAR);
     UART8->CR1 |= (USART_CR1_TE | USART_CR1_RE | USART_CR1_UE);
@@ -136,52 +138,53 @@ int main(void)
     DMA1_Stream3->CR &=~(DMA_SxCR_EN);
 	while((DMA1_Stream3->CR &(DMA_SxCR_EN)));
 
-    DMA1_Stream1->CR |= ((CH04 << 25)
-                        |(DMA_SxCR_MINC)
+    DMA1_Stream1->CR |= ((DMA_SxCR_MINC)
                         |(DMA_SxCR_TCIE)
                         |(DMA_SxCR_CIRC));
 
-    DMA1_Stream3->CR |= ((CH04 << 25)
-                        |(DMA_SxCR_MINC)
+    DMA1_Stream3->CR |= ((DMA_SxCR_MINC)
                         |(DMA_SxCR_DIR_0)
                         |(DMA_SxCR_TCIE));
 
     DMA1_Stream1->PAR = (uint32_t) &USART3->RDR;
     DMA1_Stream3->PAR = (uint32_t) &USART3->TDR;
 
-    DMA1_Stream6->CR &= ~(DMA_SxCR_EN);
-    while((DMA1_Stream6->CR & (DMA_SxCR_EN)));
+    LL_DMA_SetPeriphRequest(DMA1, 3, 46U);
+    LL_DMA_SetPeriphRequest(DMA1, 1, 45U);
 
-    DMA1_Stream0->CR &=~(DMA_SxCR_EN);
-	while((DMA1_Stream0->CR &(DMA_SxCR_EN)));
-
-    DMA1_Stream6->CR |= ((CH05 << 25)
-                        |(DMA_SxCR_MINC)
-                        |(DMA_SxCR_TCIE)
-                        |(DMA_SxCR_CIRC));
-
-    DMA1_Stream0->CR |= ((CH05 << 25)
-                        |(DMA_SxCR_MINC)
-                        |(DMA_SxCR_DIR_0)
-                        |(DMA_SxCR_TCIE));
-
-    DMA1_Stream6->PAR = (uint32_t) &UART8->RDR;
-    DMA1_Stream0->PAR = (uint32_t) &UART8->TDR;
+//    DMA1_Stream6->CR &= ~(DMA_SxCR_EN);
+//    while((DMA1_Stream6->CR & (DMA_SxCR_EN)));
+//
+//    DMA1_Stream0->CR &=~(DMA_SxCR_EN);
+//	while((DMA1_Stream0->CR &(DMA_SxCR_EN)));
+//
+//    DMA1_Stream6->CR |= ((DMA_SxCR_MINC)
+//                        |(DMA_SxCR_TCIE)
+//                        |(DMA_SxCR_CIRC));
+//
+//    DMA1_Stream0->CR |= ((DMA_SxCR_MINC)
+//                        |(DMA_SxCR_DIR_0)
+//                        |(DMA_SxCR_TCIE));
+//
+//    DMA1_Stream6->PAR = (uint32_t) &UART8->RDR;
+//    DMA1_Stream0->PAR = (uint32_t) &UART8->TDR;
 
 
     NVIC_EnableIRQ(DMA1_Stream1_IRQn);
     NVIC_EnableIRQ(DMA1_Stream3_IRQn);
 
-    NVIC_EnableIRQ(DMA1_Stream0_IRQn);
-    NVIC_EnableIRQ(DMA1_Stream6_IRQn);
+//    NVIC_EnableIRQ(DMA1_Stream0_IRQn);
+//    NVIC_EnableIRQ(DMA1_Stream6_IRQn);
 
-    UART8_DMA1_Stream6_Read(&uart8_rx_data, 1024);
+//    UART8_DMA1_Stream6_Read(&uart8_rx_data, 1024);
 
+    USART3_DMA1_Stream3_Write("hello\n", 6);
+    USART3_DMA1_Stream1_Read(&uart_rx_data, 19);
     while(1)
     {
-        if (Is_UART8_Buffer_Full())
+        if (Is_USART3_Buffer_Full())
         {
-            USART3_DMA1_Stream3_Write(uart8_rx_data, 1024);
+            USART3_DMA1_Stream3_Write(uart_rx_data, 19);
         }
 	}
 }
@@ -215,7 +218,6 @@ void UART8_DMA1_Stream0_Write(char *data, uint16_t length)
     DMA1_Stream0->M0AR = data;
     DMA1_Stream0->NDTR = length;
     DMA1_Stream0->CR |= DMA_SxCR_EN;
-    while(uart8_tx_finished == 0);
     uart8_tx_finished = 0;
 }
 
@@ -294,18 +296,5 @@ uint8_t Is_UART8_Buffer_Full(void)
         uart8_rx_finished = 0;
         return BUFFER_FULL;
     }
-}
-
-void Delay(int ms)
-{
-	int i;
-	SysTick->LOAD = 16000 - 1;
-	SysTick->VAL = 0;
-	SysTick->CTRL = 0x5;
-	for (i = 0; i < ms; i++)
-	{
-		while(!(SysTick->CTRL & 0x10000)){}
-	}
-	SysTick->CTRL = 0;
 }
 

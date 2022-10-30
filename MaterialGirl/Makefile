@@ -2,7 +2,7 @@ TARGET = main
 
 BUILD_DIR = build
 
-C_SOURCES = $(shell find . -name "*.c")
+C_SOURCES = $(shell find ./src -name "*.c")
 
 PREFIX = arm-none-eabi
 CC = $(PREFIX)-gcc
@@ -15,19 +15,21 @@ GDB = $(PREFIX)-gdb
 BIN = $(CP) -O binary
 
 CPU = -mcpu=cortex-m7
-MCU = $(CPU) -mthumb -g
+MCU = $(CPU) -mthumb -g -mfpu=fpv5-d16 -mfloat-abi=hard
 
-DIR = STM32F767_Drivers
+DIR = Drivers
 
 C_INCLUDES = -I.
-C_INCLUDES += -I./${DIR}/CMSIS/Device/ST/STM32F7xx/Include
+C_INCLUDES += -I./${DIR}/CMSIS/Device/ST/STM32H7xx/Include
 C_INCLUDES += -I./${DIR}/CMSIS/Include
+C_INCLUDES += -I./${DIR}/CMSIS/DSP/Include
+C_INCLUDES += -I./${DIR}/STM32H7xx_HAL_Driver/Inc
 C_INCLUDES += -I./include
 
 CFLAGS = $(MCU) $(C_INCLUDES)
 
 LDSCRIPT = stm32.ld
-LDFLAGS = -T $(LDSCRIPT)
+LDFLAGS = -static -T $(LDSCRIPT) -L./${DIR}/CMSIS/DSP/Lib/GCC -larm_cortexM7lfdp_math
 
 all: $(BUILD_DIR)/$(TARGET).bin
 
@@ -36,7 +38,6 @@ vpath %.c $(sort $(dir $(C_SOURCES)))
 
 $(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-
 $(BUILD_DIR)/%.o: %.S | $(BUILD_DIR)
 	$(AS) $< -o $@
 
