@@ -8,14 +8,14 @@ PREFIX = arm-none-eabi
 CC = $(PREFIX)-gcc
 AS = $(PREFIX)-as
 CP = $(PREFIX)-objcopy
-LD = $(PREFIX)-ld.bfd
+LD = $(PREFIX)-gcc
 SZ = $(PREFIX)-size
 GDB = $(PREFIX)-gdb
 
 BIN = $(CP) -O binary
 
 CPU = -mcpu=cortex-m7
-MCU = $(CPU) -mthumb -g -mfpu=fpv5-d16 -mfloat-abi=hard
+MCU = $(CPU) -g --specs=nosys.specs -Wl,-Map="MaterialGirl.map" -Wl,--gc-sections --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 
 DIR = Drivers
 
@@ -29,7 +29,7 @@ C_INCLUDES += -I./include
 CFLAGS = $(MCU) $(C_INCLUDES)
 
 LDSCRIPT = stm32.ld
-LDFLAGS = -static -T $(LDSCRIPT) -L./${DIR}/CMSIS/DSP/Lib/GCC -larm_cortexM7lfdp_math
+LDFLAGS = -T $(LDSCRIPT) -static -L./${DIR}/CMSIS/DSP/Lib/GCC -larm_cortexM7lfdp_math
 
 all: $(BUILD_DIR)/$(TARGET).bin
 
@@ -42,7 +42,7 @@ $(BUILD_DIR)/%.o: %.S | $(BUILD_DIR)
 	$(AS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) | $(BUILD_DIR)
-	$(LD) $(LDFLAGS) $(OBJECTS) -o $@
+	$(LD) -o $@ $(OBJECTS) $(LDFLAGS) $(CFLAGS)
 	$(SZ) $@
 
 $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)

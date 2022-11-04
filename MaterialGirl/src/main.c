@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "stm32h7xx.h"
 #include "stm32h7xx_ll_dma.h"
-//#include "arm_math.h"
+#include "arm_math.h"
 
 #define STACK_TOP   ((uint32_t)0x20000800)
 #define AF07        (0x7UL)
@@ -99,6 +99,15 @@ uint32_t *myvectors[56] __attribute__ ((section("vectors"))) = {
     (uint32_t *) Default_Handler                                            // USART3 global interrupt
 };
 
+const float32_t A_f32[16] = {
+    1.0, 0.0, 0.0, 0.0,
+    0.0, 1.0, 0.0, 0.0,
+    0.0, 0.0, 1.0, 0.0,
+    0.0, 0.0, 0.0, 1.0,
+};
+
+float32_t AI_f32[4 * 4];
+
 int main(void)
 {
     RCC->AHB4ENR |= RCC_AHB4ENR_GPIOEEN;                                    // enable GPIOE clock
@@ -178,8 +187,25 @@ int main(void)
 
 //    UART8_DMA1_Stream6_Read(&uart8_rx_data, 1024);
 
+
+
     USART3_DMA1_Stream3_Write("hello\n", 6);
     USART3_DMA1_Stream1_Read(&uart_rx_data, 19);
+
+    arm_matrix_instance_f32 A, AI;
+    arm_status status;
+
+    arm_mat_init_f32(&A, 4, 4, (float32_t *)A_f32);
+    arm_mat_init_f32(&AI, 4, 4, (float32_t *)AI_f32);
+
+    status = arm_mat_inverse_f32(&A, &AI);
+
+    if (status == ARM_MATH_SUCCESS) {
+        RCC->AHB4ENR |= RCC_AHB4ENR_GPIOBEN; // Enable GPIOB clock
+        GPIOB->MODER |= GPIO_MODER_MODE0_1; // Set to output mode
+	    GPIOB->ODR |= GPIO_ODR_OD0; // Turn on pin
+    }
+
     while(1)
     {
         if (Is_USART3_Buffer_Full())
