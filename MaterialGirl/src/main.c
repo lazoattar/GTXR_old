@@ -323,4 +323,3 @@ uint8_t Is_UART8_Buffer_Full(void)
         return BUFFER_FULL;
     }
 }
-

@@ -51,6 +51,27 @@ Discarded input sections
  .debug_frame   0x0000000000000000      0x228 build/main.o
  .ARM.attributes
                 0x0000000000000000       0x32 build/main.o
+ .text          0x0000000000000000       0x1e build/linear_system.o
+ .data          0x0000000000000000        0x0 build/linear_system.o
+ .bss           0x0000000000000000        0x0 build/linear_system.o
+ .debug_info    0x0000000000000000      0x14f build/linear_system.o
+ .debug_abbrev  0x0000000000000000       0xad build/linear_system.o
+ .debug_aranges
+                0x0000000000000000       0x20 build/linear_system.o
+ .debug_line    0x0000000000000000      0x103 build/linear_system.o
+ .debug_str     0x0000000000000000      0x1b4 build/linear_system.o
+ .comment       0x0000000000000000       0x4a build/linear_system.o
+ .debug_frame   0x0000000000000000       0x38 build/linear_system.o
+ .ARM.attributes
+                0x0000000000000000       0x32 build/linear_system.o
+ .text          0x0000000000000000        0x0 build/log.o
+ .data          0x0000000000000000        0x0 build/log.o
+ .bss           0x0000000000000000        0x0 build/log.o
+ .debug_line    0x0000000000000000        0x0 build/log.o
+ .debug_str     0x0000000000000000       0xa7 build/log.o
+ .comment       0x0000000000000000       0x4a build/log.o
+ .ARM.attributes
+                0x0000000000000000       0x32 build/log.o
  .text          0x0000000000000000        0x0 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
  .data          0x0000000000000000        0x0 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
  .bss           0x0000000000000000        0x0 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
@@ -152,6 +173,8 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/h
 LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/hard/crtbegin.o
 LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/crt0.o
 LOAD build/main.o
+LOAD build/linear_system.o
+LOAD build/log.o
 LOAD ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a
 START GROUP
 LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a
