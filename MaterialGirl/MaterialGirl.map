@@ -96,14 +96,15 @@ Discarded input sections
  .debug_frame   0x0000000000000000       0x38 build/linear_system.o
  .ARM.attributes
                 0x0000000000000000       0x32 build/linear_system.o
- .text          0x0000000000000000       0xaa build/log.o
+ .text          0x0000000000000000      0x13c build/log.o
  .data          0x0000000000000000        0x0 build/log.o
  .bss           0x0000000000000000        0x0 build/log.o
+ .rodata        0x0000000000000000       0x35 build/log.o
  .debug_info    0x0000000000000000      0x17f build/log.o
  .debug_abbrev  0x0000000000000000       0xf8 build/log.o
  .debug_aranges
                 0x0000000000000000       0x20 build/log.o
- .debug_line    0x0000000000000000       0xf3 build/log.o
+ .debug_line    0x0000000000000000      0x111 build/log.o
  .debug_str     0x0000000000000000      0x1ba build/log.o
  .comment       0x0000000000000000       0x4a build/log.o
  .debug_frame   0x0000000000000000       0x54 build/log.o
