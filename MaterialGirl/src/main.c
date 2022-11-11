@@ -5,6 +5,7 @@
 #include "stm32h7xx.h"
 #include "stm32h7xx_ll_dma.h"
 #include "arm_math.h"
+#include "util/log.h"
 
 #define STACK_TOP   ((uint32_t)0x20000800)
 #define AF07        (0x7UL)
@@ -110,6 +111,8 @@ float32_t AI_f32[4 * 4];
 
 int main(void)
 {
+    LOG_FATAL("Hello %d", 123);
+
     RCC->AHB4ENR |= RCC_AHB4ENR_GPIOEEN;                                    // enable GPIOE clock
     RCC->APB1LENR |= RCC_APB1LENR_UART8EN;                                    // enable UART8 clock
     RCC->AHB4ENR |= RCC_AHB4ENR_GPIODEN;                                    // enable GPIOD clock

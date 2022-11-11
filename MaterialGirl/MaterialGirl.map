@@ -68,16 +68,16 @@ Discarded input sections
  .ARM.exidx     0x0000000000000000       0x10 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/crt0.o
  .ARM.attributes
                 0x0000000000000000       0x1c /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/crt0.o
- .text          0x0000000000000000      0x500 build/main.o
+ .text          0x0000000000000000      0x510 build/main.o
  .data          0x0000000000000000        0x0 build/main.o
  .bss           0x0000000000000000      0x504 build/main.o
- .rodata        0x0000000000000000       0x4f build/main.o
+ .rodata        0x0000000000000000       0x5b build/main.o
  vectors        0x0000000000000000       0xe0 build/main.o
  .debug_info    0x0000000000000000     0x1043 build/main.o
  .debug_abbrev  0x0000000000000000      0x21f build/main.o
  .debug_aranges
                 0x0000000000000000       0x20 build/main.o
- .debug_line    0x0000000000000000      0x386 build/main.o
+ .debug_line    0x0000000000000000      0x38a build/main.o
  .debug_str     0x0000000000000000      0xf7d build/main.o
  .comment       0x0000000000000000       0x4a build/main.o
  .debug_frame   0x0000000000000000      0x228 build/main.o

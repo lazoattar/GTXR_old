@@ -15,35 +15,35 @@
 void log_message(int level, const char *format, bool newline, ...);
 
 #if LOG_LEVEL >= LOG_LEVEL_FATAL
-#define LOG_FATAL(str, format, ...) log_message(LOG_LEVEL_FATAL, format, true, __VA_ARGS__)
-#define _LOG_FATAL(str, format, ...) log_message(LOG_LEVEL_FATAL, format, false, __VA_ARGS__)
+#define LOG_FATAL(format, ...) log_message(LOG_LEVEL_FATAL, format, true, ##__VA_ARGS__)
+#define _LOG_FATAL(format, ...) log_message(LOG_LEVEL_FATAL, format, false, ##__VA_ARGS__)
 #else
-#define LOG_FATAL(...)
-#define _LOG_FATAL(...)
+#define LOG_FATAL(format, ...)
+#define _LOG_FATAL(format, ...)
 #endif
 
 #if LOG_LEVEL >= LOG_LEVEL_ERROR
-#define LOG_ERROR(...) log_message(LOG_LEVEL_ERROR, format, true, __VA_ARGS__)
-#define _LOG_ERROR(...) log_message(LOG_LEVEL_ERROR,  format, false, __VA_ARGS__)
+#define LOG_ERROR(format, ...) log_message(LOG_LEVEL_ERROR, format, true, ##__VA_ARGS__)
+#define _LOG_ERROR(format, ...) log_message(LOG_LEVEL_ERROR,  format, false, ##__VA_ARGS__)
 #else
-#define LOG_ERROR(...)
-#define _LOG_ERROR(...)
+#define LOG_ERROR(format, ...)
+#define _LOG_ERROR(format, ...)
 #endif
 
 #if LOG_LEVEL >= LOG_LEVEL_WARN
-#define LOG_WARN(...) log_message(LOG_LEVEL_WARN, format, true, __VA_ARGS__)
-#define _LOG_WARN(...) log_message(LOG_LEVEL_WARN, format, false, __VA_ARGS__)
+#define LOG_WARN(format, ...) log_message(LOG_LEVEL_WARN, format, true, ##__VA_ARGS__)
+#define _LOG_WARN(format, ...) log_message(LOG_LEVEL_WARN, format, false, ##__VA_ARGS__)
 #else
-#define LOG_WARN(...)
-#define _LOG_WARN(...)
+#define LOG_WARN(format, ...)
+#define _LOG_WARN(format, ...)
 #endif
 
 #if LOG_LEVEL >= LOG_LEVEL_INFO
-#define LOG_INFO(...) log_message(LOG_LEVEL_INFO, format, true, __VA_ARGS__)
-#define _LOG_INFO(...) log_message(LOG_LEVEL_INFO, format, false, __VA_ARGS__)
+#define LOG_INFO(format, ...) log_message(LOG_LEVEL_INFO, format, true, ##__VA_ARGS__)
+#define _LOG_INFO(format, ...) log_message(LOG_LEVEL_INFO, format, false, ##__VA_ARGS__)
 #else
-#define LOG_INFO(...)
-#define _LOG_INFO(...)
+#define LOG_INFO(format, ...)
+#define _LOG_INFO(format, ...)
 #endif
 
 #endif /* LOG_H */
