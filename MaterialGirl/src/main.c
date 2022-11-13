@@ -161,6 +161,21 @@ int main(void)
     DMA1_Stream1->PAR = (uint32_t) &USART3->RDR;
     DMA1_Stream3->PAR = (uint32_t) &USART3->TDR;
 
+    // Disable RTC write protection
+    RTC->WPR = 0xCAU;
+    RTC->WPR = 0x53U;
+
+    // Set initialiation mode
+    RTC->ISR = RTC_ISR_INIT_Msk;
+
+    // Wait until initialization mode entered
+    while ((RTC->ISR & RTC_ISR_INITF) == 0U);
+
+    RTC->CR &= ~(RTC_CR_FMT | RTC_CR_OSEL | RTC_CR_POL);
+
+    // Configure 24 hour time, no output, high output polarity
+    RTC->CR |= RTC_CR_POL;
+
     LL_DMA_SetPeriphRequest(DMA1, 3, 46U);
     LL_DMA_SetPeriphRequest(DMA1, 1, 45U);
 
