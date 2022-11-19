@@ -1,9 +1,5 @@
 Archive member included to satisfy reference by file (symbol)
 
-./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
-                              build/main.o (arm_mat_inverse_f32)
-./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
-                              build/main.o (arm_mat_init_f32)
 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-exit.o)
                               /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/crt0.o (exit)
 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-impure.o)
@@ -68,19 +64,19 @@ Discarded input sections
  .ARM.exidx     0x0000000000000000       0x10 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/crt0.o
  .ARM.attributes
                 0x0000000000000000       0x1c /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/crt0.o
- .text          0x0000000000000000      0x550 build/main.o
+ .text          0x0000000000000000      0x6d0 build/main.o
  .data          0x0000000000000000        0x0 build/main.o
  .bss           0x0000000000000000      0x504 build/main.o
- .rodata        0x0000000000000000       0x5b build/main.o
+ .rodata        0x0000000000000000       0x78 build/main.o
  vectors        0x0000000000000000       0xe0 build/main.o
- .debug_info    0x0000000000000000     0x1335 build/main.o
- .debug_abbrev  0x0000000000000000      0x21f build/main.o
+ .debug_info    0x0000000000000000     0x13f3 build/main.o
+ .debug_abbrev  0x0000000000000000      0x24e build/main.o
  .debug_aranges
                 0x0000000000000000       0x20 build/main.o
- .debug_line    0x0000000000000000      0x3b8 build/main.o
- .debug_str     0x0000000000000000     0x10b5 build/main.o
+ .debug_line    0x0000000000000000      0x486 build/main.o
+ .debug_str     0x0000000000000000     0x107a build/main.o
  .comment       0x0000000000000000       0x4a build/main.o
- .debug_frame   0x0000000000000000      0x228 build/main.o
+ .debug_frame   0x0000000000000000      0x274 build/main.o
  .ARM.attributes
                 0x0000000000000000       0x32 build/main.o
  .text          0x0000000000000000       0x1e build/linear_system.o
@@ -110,39 +106,6 @@ Discarded input sections
  .debug_frame   0x0000000000000000       0x54 build/log.o
  .ARM.attributes
                 0x0000000000000000       0x32 build/log.o
- .text          0x0000000000000000        0x0 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .data          0x0000000000000000        0x0 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .bss           0x0000000000000000        0x0 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .text.arm_mat_inverse_f32
-                0x0000000000000000      0x1fc ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .debug_info    0x0000000000000000      0xd81 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .debug_abbrev  0x0000000000000000      0x26c ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .debug_loc     0x0000000000000000      0x81e ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .debug_aranges
-                0x0000000000000000       0x20 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .debug_ranges  0x0000000000000000       0x10 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .debug_line    0x0000000000000000      0x4eb ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .debug_str     0x0000000000000000      0x7c8 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .comment       0x0000000000000000       0x76 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .debug_frame   0x0000000000000000       0x4c ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .ARM.attributes
-                0x0000000000000000       0x32 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_inverse_f32.o)
- .text          0x0000000000000000        0x0 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .data          0x0000000000000000        0x0 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .bss           0x0000000000000000        0x0 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .text.arm_mat_init_f32
-                0x0000000000000000        0x8 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .debug_info    0x0000000000000000      0xb0c ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .debug_abbrev  0x0000000000000000      0x1e7 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .debug_aranges
-                0x0000000000000000       0x20 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .debug_ranges  0x0000000000000000       0x10 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .debug_line    0x0000000000000000      0x259 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .debug_str     0x0000000000000000      0x693 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .comment       0x0000000000000000       0x76 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .debug_frame   0x0000000000000000       0x20 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
- .ARM.attributes
-                0x0000000000000000       0x32 ./Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM7lfdp_math.a(arm_mat_init_f32.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-exit.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-exit.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-exit.o)
