@@ -12,6 +12,8 @@ Archive member included to satisfy reference by file (symbol)
                               build/log.o (sprintf)
 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-strlen.o)
                               build/log.o (strlen)
+/opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-vsprintf.o)
+                              build/log.o (vsprintf)
 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
                               /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-sprintf.o) (_svfprintf_r)
 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-nano-vfprintf_i.o)
@@ -92,16 +94,16 @@ Discarded input sections
  .debug_frame   0x0000000000000000       0x38 build/linear_system.o
  .ARM.attributes
                 0x0000000000000000       0x32 build/linear_system.o
- .text          0x0000000000000000      0x13c build/log.o
+ .text          0x0000000000000000      0x140 build/log.o
  .data          0x0000000000000000        0x0 build/log.o
  .bss           0x0000000000000000        0x0 build/log.o
- .rodata        0x0000000000000000       0x35 build/log.o
- .debug_info    0x0000000000000000      0x17f build/log.o
- .debug_abbrev  0x0000000000000000       0xf8 build/log.o
+ .rodata        0x0000000000000000       0x31 build/log.o
+ .debug_info    0x0000000000000000      0x15f build/log.o
+ .debug_abbrev  0x0000000000000000       0xd0 build/log.o
  .debug_aranges
                 0x0000000000000000       0x20 build/log.o
- .debug_line    0x0000000000000000      0x111 build/log.o
- .debug_str     0x0000000000000000      0x1ba build/log.o
+ .debug_line    0x0000000000000000      0x120 build/log.o
+ .debug_str     0x0000000000000000      0x1aa build/log.o
  .comment       0x0000000000000000       0x4a build/log.o
  .debug_frame   0x0000000000000000       0x54 build/log.o
  .ARM.attributes
@@ -153,6 +155,16 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-strlen.o)
  .ARM.attributes
                 0x0000000000000000       0x17 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-strlen.o)
+ .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-vsprintf.o)
+ .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-vsprintf.o)
+ .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-vsprintf.o)
+ .text._vsprintf_r
+                0x0000000000000000       0x2c /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-vsprintf.o)
+ .text.vsprintf
+                0x0000000000000000       0x14 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-vsprintf.o)
+ .debug_frame   0x0000000000000000       0x3c /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-vsprintf.o)
+ .ARM.attributes
+                0x0000000000000000       0x32 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-vsprintf.o)
  .text          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
  .data          0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
  .bss           0x0000000000000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/libc_nano.a(lib_a-nano-svfprintf.o)
@@ -343,6 +355,7 @@ Memory Configuration
 Name             Origin             Length             Attributes
 ram              0x0000000020000000 0x0000000000005000 xrw
 rom              0x0000000008000000 0x0000000000020000 xr
+DTCMRAM          0x0000000000000000 0xffffffffffffffff
 *default*        0x0000000000000000 0xffffffffffffffff
 
 Linker script and memory map
@@ -375,6 +388,8 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-
 END GROUP
 LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/hard/crtend.o
 LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/hard/crtn.o
+                0x0000000000000200                _Min_Heap_Size = 0x200
+                0x0000000000000400                _Min_Stack_Size = 0x400
 
 .text
  *(vectors)
@@ -406,6 +421,17 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/h
 
 .bss
  *(.bss)
+
+._user_heap_stack
+                0x0000000000000000      0x600
+                0x0000000000000000                . = ALIGN (0x8)
+                0x0000000000000000                PROVIDE (end = .)
+                [!provide]                        PROVIDE (_end = .)
+                0x0000000000000200                . = (. + _Min_Heap_Size)
+ *fill*         0x0000000000000000      0x200 
+                0x0000000000000600                . = (. + _Min_Stack_Size)
+ *fill*         0x0000000000000200      0x400 
+                0x0000000000000600                . = ALIGN (0x8)
 OUTPUT(build/main.elf elf32-littlearm)
 LOAD linker stubs
 
